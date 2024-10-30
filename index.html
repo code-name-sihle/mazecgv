@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Runner - Start Menu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00, 0 0 40px #00ff00; }
+            100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #1f1f1f, #2a2a2a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #mainMenu {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            animation: glowText 2s ease-in-out infinite;
+            letter-spacing: 4px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background: transparent;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transform: scale(1.05);
+        }
+
+        button i {
+            margin-right: 10px;
+        }
+
+        #dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            z-index: 10;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            backdrop-filter: blur(15px);
+            max-width: 80%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #dialog h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: glowText 2s ease-in-out infinite;
+        }
+
+        #dialog button {
+            margin-top: 20px;
+            width: 150px;
+        }
+
+        .objective-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 255, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    
+    <div id="mainMenu">
+        <h1>MAZE RUNNER</h1>
+        <div class="button-container">
+            <button id="startGameButton"><i class="fas fa-play"></i>Start Game</button>
+            <button id="instructions"><i class="fas fa-book"></i>Instructions</button>
+            <button id="credits"><i class="fas fa-award"></i>Credits</button>
+        </div>
+    </div>
+
+    <div id="dialog">
+        <div id="dialogContent"></div>
+        <button id="closeDialog">Close</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        console.log("Script initialized");
+        // Initialize particles.js
+        particlesJS('particles', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#00ff00' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00ff00',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+        console.log("Particles initialized");
+        document.getElementById('startGameButton').addEventListener('click', function() {
+            console.log("Start game button clicked");
+            window.location.href = 'start.html';
+        });
+
+        document.getElementById('instructions').addEventListener('click', function() {
+            console.log("Instructions button clicked");
+            showDialog('Instructions', `
+                <div class="objective-item">
+                    <strong>Controls:</strong><br>
+                    Use W, A, S, D to navigate through the maze
+                </div>
+                <div class="objective-item">
+                    <strong>Level 1:</strong><br>
+                    🎯 Reach the exit before the timer runs out
+                </div>
+                <div class="objective-item">
+                    <strong>Level 2:</strong><br>
+                    💰 Collect all coins<br>
+                    🎯 Reach the exit before time expires
+                </div>
+                <div class="objective-item">
+                    <strong>Level 3:</strong><br>
+                    🧟 Avoid the zombies<br>
+                    💰 Collect all coins<br>
+                    🎯 Reach the exit before time expires
+                </div>
+            `);
+        });
+
+        document.getElementById('credits').addEventListener('click', function() {
+            console.log("Credits button clicked");
+            showDialog('Credits', `
+                <div style="text-align: center">
+                    <h3>🎮 Maze Runner</h3>
+                    <p>Created by Apex Arcade</p>
+                    <hr style="border-color: #00ff00; margin: 20px 0">
+                    <p>Special thanks to:</p>
+                    <p>The Three.js Community</p>
+                    <p>All our amazing players!</p>
+                </div>
+            `);
+        });
+
+        document.getElementById('closeDialog').addEventListener('click', function() {
+            console.log("Close dialog button clicked");
+            document.getElementById('dialog').style.display = 'none';
+        });
+
+        function showDialog(title, content) {
+            document.getElementById('dialogContent').innerHTML = `<h2>${title}</h2>${content}`;
+            document.getElementById('dialog').style.display = 'block';
+        }
+
+        // Close dialog when clicking outside
+        window.addEventListener('click', function(event) {
+            console.log("Dialog close event triggered");
+            const dialog = document.getElementById('dialog');
+            if (event.target === dialog) {
+                console.log("Dialog close event confirmed");
+                dialog.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
